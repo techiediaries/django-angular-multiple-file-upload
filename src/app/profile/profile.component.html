@@ -1,13 +1,21 @@
 <h1>Django REST API with Angular 7 File Upload Example</h1>
-<div>
-  <div *ngIf="response && imageURL">
-    <img [src]='imageURL' />
-  </div>
 
-  <form [formGroup]="form" (ngSubmit)="onSubmit()">
-
-    <input type="file" name="profile" (change)="onChange($event)" />
-    <button type="submit">Upload Image File</button>
-
-  </form>
+<div ng2FileDrop
+[ngClass]="{'drop-file-over': hasBaseDropZoneOver}"
+(fileOver)="fileOverBase($event)"
+[uploader]="uploader"
+class="area">
+<div id="dropZone">Drop files here</div>
 </div>
+
+
+<input type="file" ng2FileSelect [uploader]="uploader" multiple  />
+
+<button (click)="upload()">Upload files</button>
+
+<h2>Your files: {{ uploader?.queue?.length }}</h2>
+<ul>
+<li *ngFor="let item of uploader.queue">
+    {{ item?.file?.name }}
+</li>
+</ul>
